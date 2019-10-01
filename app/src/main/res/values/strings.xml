@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Top News</string>
+    <string name="bbc">BBC News</string>
+    <string name="aljazeera">Aljazeera</string>
+    <string name="cnn">CNN</string>
+    <string name="header">navigation header</string>
+    <string name="sub">powered by NewsApi</string>
+
 </resources>
