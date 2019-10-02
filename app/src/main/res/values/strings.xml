@@ -5,5 +5,7 @@
     <string name="cnn">CNN</string>
     <string name="header">navigation header</string>
     <string name="sub">powered by NewsApi</string>
+    <string name="image">news image</string>
+
 
 </resources>
