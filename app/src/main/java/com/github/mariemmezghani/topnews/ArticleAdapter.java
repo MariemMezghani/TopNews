@@ -17,12 +17,10 @@ import java.util.List;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>{
 
-    private final ArticleAdapterOnClickHandler mClickHandler;
     private Context mContext;
     private List<Article> mArticles;
 
-    public ArticleAdapter(ArticleAdapterOnClickHandler mClickHandler, Context mContext) {
-        this.mClickHandler = mClickHandler;
+    public ArticleAdapter( Context mContext) {
         this.mContext = mContext;
     }
     @NonNull
@@ -80,7 +78,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             Article article = mArticles.get(adapterPosition);
-            mClickHandler.onClick(article);
         }
 
     }
