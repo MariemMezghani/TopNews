@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         sourceToolbar=(TextView)findViewById(R.id.source);
         mSwipe=(SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
 
+        //service
+        mService = Request.getDataService();
+
         //initialize
         sourceToolbar.setText(getString(R.string.bbc));
         urlSourceName=getString(R.string.bbc_source);
@@ -93,19 +96,31 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        //read sharedPreferences
-        SharedPreferences sharedPreferences=this.getPreferences(Context.MODE_PRIVATE);
-        String savedUrlSourceName = sharedPreferences.getString("UrlSourceName",null);
-        String savedSourceName = sharedPreferences.getString("SourceName", null);
+        loadFromSavedSource();
+
+        //implement swipe refresh
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadFromSavedSource();
+
+            }
+        });
 
 
-        //service
-        mService = Request.getDataService();
-
-        navigationItemClick(savedSourceName,savedUrlSourceName);
 
 
     }
+    private void loadFromSavedSource(){
+        //read sharedPreferences
+        SharedPreferences sharedPreferences=this.getPreferences(Context.MODE_PRIVATE);
+        final String savedUrlSourceName = sharedPreferences.getString("UrlSourceName",null);
+        final String savedSourceName = sharedPreferences.getString("SourceName", null);
+
+        navigationItemClick(savedSourceName,savedUrlSourceName);
+
+    }
+
 
     private void navigationItemClick(String source, String urlSource){
 
@@ -136,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                         mArticleAdapter=new ArticleAdapter(getBaseContext());
                         mArticleAdapter.setArticles(articles);
                         mArticlesList.setAdapter(mArticleAdapter);
+                        mSwipe.setRefreshing(false);
                     }
 
                     @Override
