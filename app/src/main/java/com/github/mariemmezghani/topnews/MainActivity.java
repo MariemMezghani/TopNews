@@ -11,8 +11,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mariemmezghani.topnews.Model.Article;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private GetDataService mService;
     private SwipeRefreshLayout mSwipe;
     private TextView sourceToolbar;
+    private TextView mErrorMessage;
     RecyclerView mArticlesList;
     ArticleAdapter mArticleAdapter;
     private NavigationView navigationView;
@@ -49,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         //view
         sourceToolbar=(TextView)findViewById(R.id.source);
         mSwipe=(SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
-
-        //service
-        mService = Request.getDataService();
+        mErrorMessage=(TextView) findViewById(R.id.error_message);
 
         //initialize
         sourceToolbar.setText(getString(R.string.bbc));
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadFromSavedSource();
 
-        //implement swipe refresh
+        //implement swipe refresh; source3
         mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -141,24 +143,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void loadNews(String source){
-        mService.getNewsArticles(Request.getNewsUrl(source))
-                .enqueue(new Callback<News>() {
-                    @Override
-                    public void onResponse(Call<News> call, Response<News> response) {
+           if (isOnline(this)) {
+               mArticlesList.setVisibility(View.VISIBLE);
+               mErrorMessage.setVisibility(View.INVISIBLE);
+               //service
+               mService = Request.getDataService();
 
-                        //load articles
-                        List<Article> articles= response.body().getArticles();
-                        mArticleAdapter=new ArticleAdapter(getBaseContext());
-                        mArticleAdapter.setArticles(articles);
-                        mArticlesList.setAdapter(mArticleAdapter);
-                        mSwipe.setRefreshing(false);
-                    }
+               mService.getNewsArticles(Request.getNewsUrl(source))
+                       .enqueue(new Callback<News>() {
+                           @Override
+                           public void onResponse(Call<News> call, Response<News> response) {
 
-                    @Override
-                    public void onFailure(Call<News> call, Throwable t) {
+                               //load articles
+                               List<Article> articles = response.body().getArticles();
+                               mArticleAdapter = new ArticleAdapter(getBaseContext());
+                               mArticleAdapter.setArticles(articles);
+                               mArticlesList.setAdapter(mArticleAdapter);
+                               mSwipe.setRefreshing(false);
+                           }
 
-                    }
-                });
+                           @Override
+                           public void onFailure(Call<News> call, Throwable t) {
+
+                           }
+                       });
+           }else{
+               showErrorMessage();
+           }
 
     }
 
@@ -169,5 +180,24 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //check network connectivity
+    public static boolean isOnline(Context context) {
+
+        ConnectivityManager connectivityManager
+
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+
+    }
+    //show error message and hide the recyclerview
+    private void showErrorMessage() {
+        mArticlesList.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+        mSwipe.setRefreshing(false);
     }
 }
