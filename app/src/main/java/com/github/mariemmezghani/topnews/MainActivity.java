@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipe;
     private TextView sourceToolbar;
     private TextView mErrorMessage;
+    private TextView mNoDataMessage;
     RecyclerView mArticlesList;
     ArticleAdapter mArticleAdapter;
     private NavigationView navigationView;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         sourceToolbar=(TextView)findViewById(R.id.source);
         mSwipe=(SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
         mErrorMessage=(TextView) findViewById(R.id.error_message);
+        mNoDataMessage=(TextView) findViewById(R.id.nodata_message);
 
         //initialize
         sourceToolbar.setText(getString(R.string.bbc));
@@ -143,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void loadNews(String source){
+
            if (isOnline(this)) {
-               mArticlesList.setVisibility(View.VISIBLE);
-               mErrorMessage.setVisibility(View.INVISIBLE);
+
                //service
                mService = Request.getDataService();
 
@@ -153,6 +155,17 @@ public class MainActivity extends AppCompatActivity {
                        .enqueue(new Callback<News>() {
                            @Override
                            public void onResponse(Call<News> call, Response<News> response) {
+
+                               int code = response.code();
+                               if (code != 200){
+                                   mArticlesList.setVisibility(View.INVISIBLE);
+                                   mErrorMessage.setVisibility(View.INVISIBLE);
+                                   mNoDataMessage.setVisibility(View.VISIBLE);
+
+                               }
+                               mArticlesList.setVisibility(View.VISIBLE);
+                               mErrorMessage.setVisibility(View.INVISIBLE);
+                               mNoDataMessage.setVisibility(View.INVISIBLE);
 
                                //load articles
                                List<Article> articles = response.body().getArticles();
@@ -198,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
     private void showErrorMessage() {
         mArticlesList.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
+        mNoDataMessage.setVisibility(View.INVISIBLE);
         mSwipe.setRefreshing(false);
     }
 }

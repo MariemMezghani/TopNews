@@ -3,6 +3,7 @@
     <string name="error_message">
         It seems that you have lost your network connection. Please try again later.
     </string>
+    <string name="nodata_message">Sorry..no News found</string>
     <string name="bbc">BBC News</string>
     <string name="bbc_source">bbc-news</string>
     <string name="aljazeera">Al Jazeera English</string>
