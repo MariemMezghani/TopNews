@@ -1,5 +1,6 @@
 package com.github.mariemmezghani.topnews;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,16 +9,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mariemmezghani.topnews.Model.Article;
 import com.github.mariemmezghani.topnews.Model.News;
 import com.github.mariemmezghani.topnews.NetworkUtils.GetDataService;
 import com.github.mariemmezghani.topnews.NetworkUtils.Request;
-import com.squareup.picasso.Picasso;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
@@ -32,17 +34,28 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private GetDataService mService;
     private SwipeRefreshLayout mSwipe;
-    private ImageView articleImage;
-    private TextView articleTitle;
+    private TextView sourceToolbar;
     RecyclerView mArticlesList;
     ArticleAdapter mArticleAdapter;
+    private NavigationView navigationView;
+    String urlSourceName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //source2; setup drawer
+        //view
+        sourceToolbar=(TextView)findViewById(R.id.source);
+        mSwipe=(SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
+
+        //initialize
+        sourceToolbar.setText(getString(R.string.bbc));
+        urlSourceName=getString(R.string.bbc_source);
+
+
+        //source2; setup drawer toggle
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,0,0);
@@ -50,25 +63,70 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
         mDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
 
-        //service
-        mService = Request.getDataService();
-
-        //View
-        mSwipe=(SwipeRefreshLayout)findViewById(R.id.swipeRefresh);
-        mArticlesList=(RecyclerView)findViewById(R.id.recyclerView);
-
         //RecyclerView
+        mArticlesList=(RecyclerView)findViewById(R.id.recyclerView);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         mArticlesList.setLayoutManager(manager);
         mArticlesList.setHasFixedSize(true);
-        loadNews();
+
+        //setup drawer
+        navigationView=(NavigationView)findViewById(R.id.nav_View);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        int id = menuItem.getItemId();
+                        if (id==R.id.bbc){
+                            navigationItemClick(getString(R.string.bbc),getString(R.string.bbc_source));
+                        }else if (id==R.id.aljazeera){
+                            navigationItemClick(getString(R.string.aljazeera),getString(R.string.aljazeera_source));
+
+                        }else if (id==R.id.cnn){
+                            navigationItemClick(getString(R.string.cnn),getString(R.string.cnn_source));
+
+                        }
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+
+                        return true;
+                    }
+                }
+        );
+
+        //read sharedPreferences
+        SharedPreferences sharedPreferences=this.getPreferences(Context.MODE_PRIVATE);
+        String savedUrlSourceName = sharedPreferences.getString("UrlSourceName",null);
+        String savedSourceName = sharedPreferences.getString("SourceName", null);
 
 
+        //service
+        mService = Request.getDataService();
+
+        navigationItemClick(savedSourceName,savedUrlSourceName);
 
 
     }
-    private void loadNews(){
-        mService.getNewsArticles(Request.getNewsUrl("bbc-news"))
+
+    private void navigationItemClick(String source, String urlSource){
+
+        if (source == null){
+            sourceToolbar.setText(getString(R.string.bbc));
+            urlSourceName=getString(R.string.bbc_source);
+
+        }else{
+            sourceToolbar.setText(source);
+            SharedPreferences.Editor sharedPreferences = this.getPreferences(Context.MODE_PRIVATE).edit();
+            sharedPreferences.putString("SourceName", source);
+            sharedPreferences.putString("UrlSourceName",urlSource);
+            sharedPreferences.commit();
+            urlSourceName=urlSource;
+
+        }
+        loadNews(urlSourceName);
+
+    }
+    private void loadNews(String source){
+        mService.getNewsArticles(Request.getNewsUrl(source))
                 .enqueue(new Callback<News>() {
                     @Override
                     public void onResponse(Call<News> call, Response<News> response) {
