@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -30,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ArticleAdapter.ArticleAdapterOnClickHandler {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager=new LinearLayoutManager(this);
         mArticlesList.setLayoutManager(manager);
         mArticlesList.setHasFixedSize(true);
+        mArticleAdapter = new ArticleAdapter(getBaseContext(),this);
+
+
 
         //setup drawer
         navigationView=(NavigationView)findViewById(R.id.nav_View);
@@ -169,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
                                //load articles
                                List<Article> articles = response.body().getArticles();
-                               mArticleAdapter = new ArticleAdapter(getBaseContext());
                                mArticleAdapter.setArticles(articles);
                                mArticlesList.setAdapter(mArticleAdapter);
                                mSwipe.setRefreshing(false);
@@ -182,7 +185,19 @@ public class MainActivity extends AppCompatActivity {
                        });
            }else{
                showErrorMessage();
+
+
            }
+
+    }
+
+    @Override
+    public void onClick(Article article){
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra("article", article);
+        startActivity(intentToStartDetailActivity);
 
     }
 

@@ -19,9 +19,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
 
     private Context mContext;
     private List<Article> mArticles;
+    private final ArticleAdapterOnClickHandler mClickHandler;
 
-    public ArticleAdapter( Context mContext) {
+    public ArticleAdapter( Context mContext, ArticleAdapterOnClickHandler clickHandler) {
         this.mContext = mContext;
+        mClickHandler=clickHandler;
     }
     @NonNull
     @Override
@@ -78,6 +80,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             Article article = mArticles.get(adapterPosition);
+            mClickHandler.onClick(article);
         }
 
     }
