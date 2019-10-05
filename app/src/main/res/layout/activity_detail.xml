@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+     <FrameLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:fitsSystemWindows="true">
 
     <ImageView
 
@@ -12,8 +24,84 @@
 
         android:layout_width="match_parent"
 
-        android:layout_height="260dp"
+        android:layout_height="match_parent"
 
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
 
-</LinearLayout>
+        android:contentDescription="@string/image"/>
+
+
+       </FrameLayout>
+        
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:fitsSystemWindows="true">
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/article_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/articleTitle"/>
+            <TextView
+                android:id="@+id/article_byline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/articleByLine"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/light_grey"/>
+            <TextView
+                android:id="@+id/article_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/articleBody"/>
+            <Button
+                android:id="@+id/read_button"
+                android:layout_marginTop="@dimen/margin_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/read_button"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/light_grey"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+     <com.google.android.material.floatingactionbutton.FloatingActionButton
+         android:id="@+id/share_fab"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="bottom|end"
+         android:layout_marginRight="@dimen/fab_margin"
+         android:layout_marginBottom="@dimen/fab_margin"
+         android:contentDescription="@string/action_share"
+         android:src="@drawable/ic_share"
+         android:stateListAnimator="@anim/fab_state_list_anim"/>
+       
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

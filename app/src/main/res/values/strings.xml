@@ -13,6 +13,10 @@
     <string name="header">navigation header</string>
     <string name="sub">powered by NewsApi</string>
     <string name="image">news image</string>
+    <string name="action_share">Share</string>
+    <string name="read_button">Read full news</string>
+
+
 
 
 </resources>
