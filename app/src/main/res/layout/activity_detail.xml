@@ -8,7 +8,7 @@
     tools:context=".DetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -82,11 +82,62 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/read_button"/>
+
+            <TextView
+
+                android:id="@+id/label_overview"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="10dp"
+                android:textColor="@color/dark_grey"
+
+                android:text="@string/comment"
+
+                android:textSize="18sp"
+
+                android:textStyle="bold"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/light_grey"/>
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:enabled="false"
+            android:text="@string/send_button"/>
+        </LinearLayout>
+
+            <ListView
+                android:id="@+id/messageListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stackFromBottom="true"
+                android:divider="@android:color/transparent"
+                android:transcriptMode="alwaysScroll"
+                tools:listitem="@layout/item_message"/>
 
         </LinearLayout>
 
@@ -96,12 +147,14 @@
          android:id="@+id/share_fab"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_gravity="bottom|end"
          android:layout_marginRight="@dimen/fab_margin"
          android:layout_marginBottom="@dimen/fab_margin"
          android:contentDescription="@string/action_share"
          android:src="@drawable/ic_share"
-         android:stateListAnimator="@anim/fab_state_list_anim"/>
+         app:elevation="6dp"
+         app:pressedTranslationZ="12dp"
+         app:layout_anchor="@id/app_bar"
+         app:layout_anchorGravity="bottom|end" />
        
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

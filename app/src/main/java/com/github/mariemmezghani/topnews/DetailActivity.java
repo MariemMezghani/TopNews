@@ -1,5 +1,7 @@
 package com.github.mariemmezghani.topnews;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -9,16 +11,30 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mariemmezghani.topnews.Model.Article;
+import com.github.mariemmezghani.topnews.Model.Comment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -28,15 +44,29 @@ public class DetailActivity extends AppCompatActivity {
     private TextView articleByLine;
     private TextView articleContent;
     private Button readButton;
+    private ListView mMessageListView;
+    private EditText mMessageEditText;
+    private Button mSendButton;
     private FloatingActionButton shareButton;
     Toolbar toolbar;
     CustomTabsIntent customTabsIntent;
+    private String mUsername;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mMessagesDatabaseReference;
+    private ChildEventListener mChildEventListener;
+    private CommentAdapter mCommentAdapter;
+
+    public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
+    public static final String ANONYMOUS = "anonymous";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
+        mUsername=ANONYMOUS;
 
         //views
         newsImage=(ImageView) findViewById(R.id.news_image_detail);
@@ -45,6 +75,19 @@ public class DetailActivity extends AppCompatActivity {
         articleContent=(TextView)findViewById(R.id.article_content);
         readButton=(Button)findViewById(R.id.read_button);
         shareButton=(FloatingActionButton)findViewById(R.id.share_fab);
+        mMessageEditText=(EditText) findViewById(R.id.messageEditText);
+        mMessageListView=(ListView)findViewById(R.id.messageListView);
+        mSendButton=(Button)findViewById(R.id.sendButton);
+
+        // Initialize message ListView and its adapter
+        List<Comment> commentList = new ArrayList<>();
+        mCommentAdapter = new CommentAdapter(this, R.layout.item_message, commentList);
+        mMessageListView.setAdapter(mCommentAdapter);
+
+        //Firebase
+        mFirebaseDatabase=FirebaseDatabase.getInstance();
+        mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("messages");
+
 
         final Intent intentThatStartedThisActivity = this.getIntent();
         if (intentThatStartedThisActivity != null) {
@@ -86,8 +129,68 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 });
 
+                // Enable Send button when there's text to send
+                mMessageEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
 
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (charSequence.toString().trim().length() > 0) {
+                            mSendButton.setEnabled(true);
+                        } else {
+                            mSendButton.setEnabled(false);
+                        }
+                    }
 
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                    }
+                });
+                mMessageEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(DEFAULT_MSG_LENGTH_LIMIT)});
+
+                // Send button sends a message and clears the EditText
+                mSendButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Comment comment = new Comment(mMessageEditText.getText().toString(), mUsername);
+                        mMessagesDatabaseReference.push().setValue(comment);
+
+                        // Clear input box
+                        mMessageEditText.setText("");
+                    }
+                });
+                mChildEventListener=new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Comment comment = dataSnapshot.getValue(Comment.class);
+                        mCommentAdapter.add(comment);
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                };
+                mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
             }
 
         }

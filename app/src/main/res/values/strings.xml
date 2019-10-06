@@ -15,6 +15,10 @@
     <string name="image">news image</string>
     <string name="action_share">Share</string>
     <string name="read_button">Read full news</string>
+    <string name="send_button">Send</string>
+    <string name="comment">Comments:</string>
+
+
 
 
 
