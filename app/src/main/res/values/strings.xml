@@ -17,6 +17,9 @@
     <string name="read_button">Read full news</string>
     <string name="send_button">Send</string>
     <string name="comment">Comments:</string>
+    <string name="write_comment">write your comment here</string>
+    <string name="sign_out">Sign Out</string>
+
 
 
 

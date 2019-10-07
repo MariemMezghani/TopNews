@@ -105,6 +105,15 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/light_grey"/>
 
+            <ListView
+                android:id="@+id/messageListView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:divider="@android:color/transparent"
+                android:transcriptMode="disabled"
+
+                tools:listitem="@layout/item_message" />
+
 
 
         <LinearLayout
@@ -114,12 +123,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+
         <EditText
             android:id="@+id/messageEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="@string/write_comment"/>
 
         <Button
             android:id="@+id/sendButton"
@@ -129,15 +140,6 @@
             android:enabled="false"
             android:text="@string/send_button"/>
         </LinearLayout>
-
-            <ListView
-                android:id="@+id/messageListView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stackFromBottom="true"
-                android:divider="@android:color/transparent"
-                android:transcriptMode="alwaysScroll"
-                tools:listitem="@layout/item_message"/>
 
         </LinearLayout>
 

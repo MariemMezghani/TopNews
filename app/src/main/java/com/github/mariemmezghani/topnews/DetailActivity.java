@@ -23,17 +23,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.github.mariemmezghani.topnews.Model.Article;
 import com.github.mariemmezghani.topnews.Model.Comment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
@@ -54,7 +60,10 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessagesDatabaseReference;
     private ChildEventListener mChildEventListener;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private CommentAdapter mCommentAdapter;
+    private List<Comment> commentList;
 
     public static final int DEFAULT_MSG_LENGTH_LIMIT = 1000;
     public static final String ANONYMOUS = "anonymous";
@@ -66,7 +75,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         toolbar=(Toolbar)findViewById(R.id.toolbar);
-        mUsername=ANONYMOUS;
 
         //views
         newsImage=(ImageView) findViewById(R.id.news_image_detail);
@@ -80,14 +88,15 @@ public class DetailActivity extends AppCompatActivity {
         mSendButton=(Button)findViewById(R.id.sendButton);
 
         // Initialize message ListView and its adapter
-        List<Comment> commentList = new ArrayList<>();
-        mCommentAdapter = new CommentAdapter(this, R.layout.item_message, commentList);
+        commentList = new ArrayList<>();
+        mCommentAdapter = new CommentAdapter(DetailActivity.this, R.layout.item_message, commentList);
         mMessageListView.setAdapter(mCommentAdapter);
 
-        //Firebase
+        //initialize Firebase
         mFirebaseDatabase=FirebaseDatabase.getInstance();
-        mMessagesDatabaseReference=mFirebaseDatabase.getReference().child("messages");
-
+        mMessagesDatabaseReference=mFirebaseDatabase.getReference("messages");
+        mFirebaseAuth= FirebaseAuth.getInstance();
+        mUsername=ANONYMOUS;
 
         final Intent intentThatStartedThisActivity = this.getIntent();
         if (intentThatStartedThisActivity != null) {
@@ -97,6 +106,7 @@ public class DetailActivity extends AppCompatActivity {
                 articleTitle.setText(article.getTitle());
                 articleByLine.setText(article.getAuthor());
                 articleContent.setText(article.getDescription());
+
 
                 // button click handling
 
@@ -155,46 +165,36 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Comment comment = new Comment(mMessageEditText.getText().toString(), mUsername);
+                        Comment comment = new Comment(mUsername, mMessageEditText.getText().toString(), article.getTitle());
                         mMessagesDatabaseReference.push().setValue(comment);
 
                         // Clear input box
                         mMessageEditText.setText("");
                     }
                 });
-                mChildEventListener=new ChildEventListener() {
+                mAuthStateListener = new FirebaseAuth.AuthStateListener() {
                     @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Comment comment = dataSnapshot.getValue(Comment.class);
-                        mCommentAdapter.add(comment);
-
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user!= null){
+                            //user is signed in
+                            mUsername = firebaseAuth.getCurrentUser().getDisplayName();
+                            attachDatabaseReadListener();
+                            Toast.makeText(DetailActivity.this, "You are welcome to friendlyChat",Toast.LENGTH_SHORT).show();
+                        }else{
+                            //user is signed out
+                            mUsername = ANONYMOUS;
+                            mCommentAdapter.clear();
+                            detachDatabasReadListener();
+                        }
 
                     }
                 };
-                mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
             }
 
         }
     }
+
     private void share(){
         ShareCompat.IntentBuilder.from(this)
 
@@ -207,4 +207,67 @@ public class DetailActivity extends AppCompatActivity {
                 .startChooser();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+        detachDatabasReadListener();
+        mCommentAdapter.clear();
+    }
+    private void attachDatabaseReadListener(){
+
+        if(mChildEventListener==null) {
+            // source 5: query firebase database
+            mMessagesDatabaseReference.orderByChild("newsTitle").equalTo(article.getTitle()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Comment comment = dataSnapshot.getValue(Comment.class);
+                    mCommentAdapter.add(comment);
+
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+    private void detachDatabasReadListener(){
+
+        if (mChildEventListener != null) {
+
+            mMessagesDatabaseReference.removeEventListener(mChildEventListener);
+            mChildEventListener = null;
+        }
+
+    }
+
+
+
 }

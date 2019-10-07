@@ -29,6 +29,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 
         TextView authorTextView = (TextView) convertView.findViewById(R.id.nameTextView);
 
+
         Comment comment = getItem(position);
 
         messageTextView.setText(comment.getText());
