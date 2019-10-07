@@ -9,12 +9,14 @@ import androidx.core.app.ShareCompat;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.widget.Button;
 import android.widget.EditText;
@@ -91,6 +93,7 @@ public class DetailActivity extends AppCompatActivity {
         commentList = new ArrayList<>();
         mCommentAdapter = new CommentAdapter(DetailActivity.this, R.layout.item_message, commentList);
         mMessageListView.setAdapter(mCommentAdapter);
+        ListViewUtils.setListViewHeightBasedOnItems(mMessageListView);
 
         //initialize Firebase
         mFirebaseDatabase=FirebaseDatabase.getInstance();
@@ -232,6 +235,8 @@ public class DetailActivity extends AppCompatActivity {
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Comment comment = dataSnapshot.getValue(Comment.class);
                     mCommentAdapter.add(comment);
+                    mCommentAdapter.notifyDataSetChanged();
+                    ListViewUtils.setListViewHeightBasedOnItems(mMessageListView);
 
 
                 }
@@ -267,7 +272,6 @@ public class DetailActivity extends AppCompatActivity {
         }
 
     }
-
 
 
 }

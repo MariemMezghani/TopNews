@@ -51,7 +51,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -108,10 +108,8 @@
             <ListView
                 android:id="@+id/messageListView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="match_parent"
                 android:divider="@android:color/transparent"
-                android:transcriptMode="disabled"
-
                 tools:listitem="@layout/item_message" />
 
 

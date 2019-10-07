@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "141399183556",
+    "firebase_url": "https://topnews-c903a.firebaseio.com",
+    "project_id": "topnews-c903a",
+    "storage_bucket": "topnews-c903a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141399183556:android:167a632ca068fc1f0fb991",
+        "android_client_info": {
+          "package_name": "com.github.mariemmezghani.topnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141399183556-7duj60qa1v86m98hr1urs6tsoovoq3gj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.mariemmezghani.topnews",
+            "certificate_hash": "0e5d22303fd08cda31bb8e38eacbccb1d4cf2f8f"
+          }
+        },
+        {
+          "client_id": "141399183556-qq9a3017fpj5l776h5iesbjugpk3rerl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL9o7fF0WYcu6xdeR9cgq-XoMPKsVQ988"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141399183556-qq9a3017fpj5l776h5iesbjugpk3rerl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
