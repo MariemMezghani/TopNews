@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
+    <item android:title="@string/browse">
+    <menu>
         <item android:id="@+id/bbc"
             android:title="@string/bbc"
             android:icon="@mipmap/ic_launcher_round"
@@ -11,6 +12,16 @@
         <item android:id="@+id/cnn"
             android:icon="@mipmap/ic_launcher_round"
             android:title="@string/cnn" />
-    </group>
+    </menu>
+</item>
 
+    <item android:title="@string/others">
+    <menu>
+        <item
+            android:id="@+id/sign_out_menu"
+            android:title="@string/sign_out"
+            android:icon="@drawable/sharp_exit_to_app_black_24dp"/>
 </menu>
+</item>
+
+    </menu>

@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -106,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
                         }else if (id==R.id.cnn){
                             navigationItemClick(getString(R.string.cnn),getString(R.string.cnn_source));
+
+                        }else if (id==R.id.sign_out_menu){
+                            AuthUI.getInstance().signOut(MainActivity.this);
+
 
                         }
                         menuItem.setChecked(true);
@@ -283,8 +289,10 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+
 
     //check network connectivity
     public static boolean isOnline(Context context) {
