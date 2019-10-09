@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,10 +28,13 @@ import com.github.mariemmezghani.topnews.Model.Article;
 import com.github.mariemmezghani.topnews.Model.News;
 import com.github.mariemmezghani.topnews.NetworkUtils.GetDataService;
 import com.github.mariemmezghani.topnews.NetworkUtils.Request;
+import com.github.mariemmezghani.topnews.Widget.UpdateWidgetService;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
     private String mUsername;
     public static final int RC_SIGN_IN = 1;
     public static final String ANONYMOUS = "anonymous";
-
+    private ArrayList<Article> articles;
+    private String newsString;
 
 
 
@@ -65,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         //view
         sourceToolbar=(TextView)findViewById(R.id.source);
@@ -93,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
         mArticlesList.setLayoutManager(manager);
         mArticlesList.setHasFixedSize(true);
         mArticleAdapter = new ArticleAdapter(getBaseContext(),this);
+        articles=new ArrayList<>();
 
         //setup drawer
         navigationView=(NavigationView)findViewById(R.id.nav_View);
@@ -252,10 +257,12 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
                                mNoDataMessage.setVisibility(View.INVISIBLE);
 
                                //load articles
-                               List<Article> articles = response.body().getArticles();
+                               List<Article> articlesList = response.body().getArticles();
+                               articles= (ArrayList) articlesList;
                                mArticleAdapter.setArticles(articles);
                                mArticlesList.setAdapter(mArticleAdapter);
                                mSwipe.setRefreshing(false);
+                               updateWidget();
                            }
 
                            @Override
@@ -310,5 +317,14 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
         mErrorMessage.setVisibility(View.VISIBLE);
         mNoDataMessage.setVisibility(View.INVISIBLE);
         mSwipe.setRefreshing(false);
+    }
+    // update widget
+    public void updateWidget(){
+        //source7
+        newsString=new Gson().toJson(articles);
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString("newsString",newsString).apply();
+        new UpdateWidgetService().startService(getBaseContext(), articles);
+
     }
 }
