@@ -42,5 +42,22 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
+    <style name="widgetTextViewStyle">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/textBackground</item>
+
+    </style>
+    <style name="WidgetItemStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:padding">@dimen/widget_margin</item>item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
 
 </resources>

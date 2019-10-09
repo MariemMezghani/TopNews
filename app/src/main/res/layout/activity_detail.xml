@@ -18,7 +18,8 @@
          android:layout_height="match_parent"
          android:fitsSystemWindows="true">
 
-    <ImageView
+
+         <ImageView
 
         android:id="@+id/news_image_detail"
 
@@ -31,8 +32,6 @@
         android:contentDescription="@string/image"/>
 
 
-       </FrameLayout>
-        
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -42,6 +41,9 @@
             android:fitsSystemWindows="true">
 
         </androidx.appcompat.widget.Toolbar>
+     </FrameLayout>
+
+
     </com.google.android.material.appbar.AppBarLayout>
 
 

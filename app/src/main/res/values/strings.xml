@@ -21,13 +21,8 @@
     <string name="sign_out">Sign Out</string>
     <string name="browse">Browse</string>
     <string name="others">Others</string>
-
-
-
-
-
-
-
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="title_widget">Top News</string>
 
 
 </resources>

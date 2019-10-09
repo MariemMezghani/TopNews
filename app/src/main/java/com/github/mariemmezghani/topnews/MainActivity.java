@@ -158,11 +158,8 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
             }
         };
-
-
-
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -182,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
             }
         }
     }
+
     private void onSignedInInitialize(String username) {
         mUsername = username;
     }

@@ -82,6 +82,7 @@ public class DetailActivity extends AppCompatActivity {
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //views
         newsImage=(ImageView) findViewById(R.id.news_image_detail);
