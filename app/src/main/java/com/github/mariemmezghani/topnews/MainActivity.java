@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
     private TextView sourceToolbar;
     private TextView mErrorMessage;
     private TextView mNoDataMessage;
+    private TextView mUser;
     RecyclerView mArticlesList;
     ArticleAdapter mArticleAdapter;
     private NavigationView navigationView;
@@ -99,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
         //setup drawer
         navigationView=(NavigationView)findViewById(R.id.nav_View);
+        //source9
+        View headerView=navigationView.getHeaderView(0);
+        mUser=(TextView) headerView.findViewById(R.id.user);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -183,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
     private void onSignedInInitialize(String username) {
         mUsername = username;
+        mUser.setText(username);
 
     }
     private void onSignedOutCleanUp(){
@@ -249,18 +254,19 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
                                    mErrorMessage.setVisibility(View.INVISIBLE);
                                    mNoDataMessage.setVisibility(View.VISIBLE);
 
-                               }
-                               mArticlesList.setVisibility(View.VISIBLE);
-                               mErrorMessage.setVisibility(View.INVISIBLE);
-                               mNoDataMessage.setVisibility(View.INVISIBLE);
+                               }else {
+                                   mArticlesList.setVisibility(View.VISIBLE);
+                                   mErrorMessage.setVisibility(View.INVISIBLE);
+                                   mNoDataMessage.setVisibility(View.INVISIBLE);
 
-                               //load articles
-                               List<Article> articlesList = response.body().getArticles();
-                               articles= (ArrayList) articlesList;
-                               mArticleAdapter.setArticles(articles);
-                               mArticlesList.setAdapter(mArticleAdapter);
-                               mSwipe.setRefreshing(false);
-                               updateWidget();
+                                   //load articles
+                                   List<Article> articlesList = response.body().getArticles();
+                                   articles = (ArrayList) articlesList;
+                                   mArticleAdapter.setArticles(articles);
+                                   mArticlesList.setAdapter(mArticleAdapter);
+                                   mSwipe.setRefreshing(false);
+                                   updateWidget();
+                               }
                            }
 
                            @Override
