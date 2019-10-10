@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.github.mariemmezghani.topnews.DetailActivity;
 import com.github.mariemmezghani.topnews.MainActivity;
 import com.github.mariemmezghani.topnews.R;
 
@@ -30,7 +31,6 @@ public class NewsWidgetProvider extends AppWidgetProvider {
         Intent serviceIntent = new Intent(context, ListViewWidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         views.setRemoteAdapter(R.id.news_list, serviceIntent);
-
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

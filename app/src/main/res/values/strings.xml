@@ -23,6 +23,8 @@
     <string name="others">Others</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="title_widget">Top News</string>
+    <string name="user">verified user</string>
+
 
 
 </resources>

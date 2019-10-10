@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
     private ArrayList<Article> articles;
     private String newsString;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,10 +114,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
                         }else if (id==R.id.sign_out_menu){
                             AuthUI.getInstance().signOut(MainActivity.this);
-
-
                         }
-                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
 
                         return true;
@@ -145,7 +140,8 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
                 if(user!=null) {
                     //user signed in
                     onSignedInInitialize(user.getDisplayName());
-                    Toast.makeText(MainActivity.this, "You are welcome to friendlyChat",Toast.LENGTH_SHORT).show();
+
+
 
                 }else{
                     //user signed out
@@ -187,10 +183,12 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
     private void onSignedInInitialize(String username) {
         mUsername = username;
+
     }
     private void onSignedOutCleanUp(){
         mUsername=ANONYMOUS;
     }
+
     @Override
     protected void onResume() {
         super.onResume();

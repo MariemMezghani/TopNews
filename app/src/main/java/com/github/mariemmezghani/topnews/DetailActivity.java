@@ -189,7 +189,6 @@ public class DetailActivity extends AppCompatActivity {
                             //user is signed in
                             mUsername = firebaseAuth.getCurrentUser().getDisplayName();
                             attachDatabaseReadListener();
-                            Toast.makeText(DetailActivity.this, "You are welcome to friendlyChat",Toast.LENGTH_SHORT).show();
                         }else{
                             //user is signed out
                             mUsername = ANONYMOUS;
@@ -211,7 +210,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 .setType("text/plain")
 
-                .setText(article.getTitle())
+                .setText(article.getUrl())
 
                 .startChooser();
 
