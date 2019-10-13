@@ -16,8 +16,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +28,7 @@ import com.github.mariemmezghani.topnews.NetworkUtils.GetDataService;
 import com.github.mariemmezghani.topnews.NetworkUtils.Request;
 import com.github.mariemmezghani.topnews.Widget.UpdateWidgetService;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
@@ -59,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
     String urlSourceName;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private String mUsername;
     public static final int RC_SIGN_IN = 1;
     public static final String ANONYMOUS = "anonymous";
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
         sourceToolbar.setText(getString(R.string.bbc));
         urlSourceName=getString(R.string.bbc_source);
         mFirebaseAuth= FirebaseAuth.getInstance();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mUsername=ANONYMOUS;
 
         //source2; setup drawer toggle

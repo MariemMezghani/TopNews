@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "141399183556-7mahnghqfbesug0aum2lot8ghdb75q00.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.mariemmezghani.topnews",
+            "certificate_hash": "2bee58ccbc410d91ab1411dc84a20bc2bb5896a0"
+          }
+        },
+        {
           "client_id": "141399183556-7duj60qa1v86m98hr1urs6tsoovoq3gj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

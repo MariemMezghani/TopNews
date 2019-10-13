@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.github.mariemmezghani.topnews.DetailActivity;
 import com.github.mariemmezghani.topnews.MainActivity;
 import com.github.mariemmezghani.topnews.R;
 
