@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
 
         //setup drawer
         navigationView=(NavigationView)findViewById(R.id.nav_View);
+        navigationView.setItemIconTintList(null);
         //source9
         View headerView=navigationView.getHeaderView(0);
         mUser=(TextView) headerView.findViewById(R.id.user);
@@ -109,13 +110,24 @@ public class MainActivity extends AppCompatActivity implements ArticleAdapter.Ar
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         int id = menuItem.getItemId();
-                        if (id==R.id.bbc){
-                            navigationItemClick(getString(R.string.bbc),getString(R.string.bbc_source));
-                        }else if (id==R.id.aljazeera){
-                            navigationItemClick(getString(R.string.aljazeera),getString(R.string.aljazeera_source));
+                        if (id == R.id.bbc) {
+                            navigationItemClick(getString(R.string.bbc), getString(R.string.bbc_source));
+                        } else if (id == R.id.aljazeera) {
+                            navigationItemClick(getString(R.string.aljazeera), getString(R.string.aljazeera_source));
 
-                        }else if (id==R.id.cnn){
-                            navigationItemClick(getString(R.string.cnn),getString(R.string.cnn_source));
+                        } else if (id == R.id.cnn) {
+                            navigationItemClick(getString(R.string.cnn), getString(R.string.cnn_source));
+
+                        }else if (id==R.id.bbc_sport){
+                            navigationItemClick(getString(R.string.bbc_sport), getString(R.string.bbc_sport_source));
+                        }else if (id==R.id.daily_mail){
+                            navigationItemClick(getString(R.string.daily_mail), getString(R.string.daily_mail_source));
+                        }else if (id==R.id.the_washington_post){
+                            navigationItemClick(getString(R.string.the_washington_post), getString(R.string.the_washington_post_source));
+                        }else if (id==R.id.reuters){
+                            navigationItemClick(getString(R.string.reuters), getString(R.string.reuters_source));
+                        }else if (id==R.id.nbc){
+                            navigationItemClick(getString(R.string.nbc), getString(R.string.nbc_source));
 
                         }else if (id==R.id.sign_out_menu){
                             AuthUI.getInstance().signOut(MainActivity.this);

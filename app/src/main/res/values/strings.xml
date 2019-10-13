@@ -10,6 +10,16 @@
     <string name="aljazeera_source">al-jazeera-english</string>
     <string name="cnn">CNN</string>
     <string name="cnn_source">cnn</string>
+    <string name="bbc_sport">BBC Sport</string>
+    <string name="bbc_sport_source">bbc-sport</string>
+    <string name="daily_mail">Daily Mail</string>
+    <string name="daily_mail_source">daily-mail</string>
+    <string name="the_washington_post">The Washington Post</string>
+    <string name="the_washington_post_source">the-washington-post</string>
+    <string name="reuters">Reuters</string>
+    <string name="reuters_source">reuters</string>
+    <string name="nbc">NBC News</string>
+    <string name="nbc_source">nbc-news</string>
     <string name="header">navigation header</string>
     <string name="sub">powered by NewsApi</string>
     <string name="image">news image</string>

@@ -2,16 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/browse">
     <menu>
+        <item android:id="@+id/aljazeera"
+            android:icon="@drawable/aljazeera"
+            android:title="@string/aljazeera" />
+
         <item android:id="@+id/bbc"
             android:title="@string/bbc"
-            android:icon="@mipmap/ic_launcher_round"
-            />
-        <item android:id="@+id/aljazeera"
-            android:icon="@mipmap/ic_launcher_round"
-            android:title="@string/aljazeera" />
+            android:icon="@drawable/bbc"/>
+
+        <item android:id="@+id/bbc_sport"
+            android:icon="@drawable/bbc_sport"
+            android:title="@string/bbc_sport" />
+
         <item android:id="@+id/cnn"
-            android:icon="@mipmap/ic_launcher_round"
+            android:icon="@drawable/cnn"
             android:title="@string/cnn" />
+
+        <item android:id="@+id/daily_mail"
+            android:icon="@drawable/daily_mail"
+            android:title="@string/daily_mail" />
+
+        <item android:id="@+id/nbc"
+            android:icon="@drawable/nbc"
+            android:title="@string/nbc" />
+
+        <item android:id="@+id/reuters"
+            android:icon="@drawable/reuters"
+            android:title="@string/reuters" />
+
+        <item android:id="@+id/the_washington_post"
+            android:icon="@drawable/washington_post"
+            android:title="@string/the_washington_post" />
+
     </menu>
 </item>
 
