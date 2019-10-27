@@ -104,8 +104,6 @@ public class DetailActivity extends AppCompatActivity {
                 articleTitle.setText(article.getTitle());
                 articleByLine.setText(article.getAuthor());
                 articleContent.setText(article.getDescription());
-
-
                 // button click handling
 
                 readButton.setOnClickListener(new View.OnClickListener() {

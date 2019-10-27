@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/articleByLine"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -109,7 +110,6 @@
                 android:divider="@android:color/transparent"
                 tools:listitem="@layout/item_message"
                 android:dividerHeight="10.0sp"/>
-
 
 
         <LinearLayout

@@ -43,6 +43,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         Picasso.with(mContext).load(mArticles.get(position).getUrlToImage()).into(holder.articleImage);
         // set article title
         holder.articleTitle.setText(mArticles.get(position).getTitle());
+        //set article date
+        holder.articleDate.setText(mArticles.get(position).getPublishedAt());
+
     }
 
     @Override
@@ -67,11 +70,16 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView articleImage;
         TextView articleTitle;
+        TextView articleDate;
+
+
 
         public ArticleViewHolder(View itemView) {
             super(itemView);
             articleImage = (ImageView) itemView.findViewById(R.id.news_image);
             articleTitle= (TextView) itemView.findViewById(R.id.news_title);
+            articleDate=(TextView)itemView.findViewById(R.id.article_date);
+
             itemView.setOnClickListener(this);
         }
 
