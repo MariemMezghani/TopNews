@@ -25,12 +25,12 @@ and who wants to have access to different popular news sources in a single app.
 ![image](https://user-images.githubusercontent.com/35550711/73890693-5000c500-4851-11ea-98ac-39d12ef3461e.png) ![image](https://user-images.githubusercontent.com/35550711/73890747-73c40b00-4851-11ea-9c95-b194f04bf86f.png)
 
 # Libraries
--Picasso ( version:2.5.2 ) to display images from the web
--Retrofit ( version:2.4.0 ) to fetch JSON data from the NewsApi.org
+- Picasso ( version:2.5.2 ) to display images from the web
+- Retrofit ( version:2.4.0 ) to fetch JSON data from the NewsApi.org
 
-# Google Ply Services
--Firebase authentication: allow users to sign in with email or google
--Firebase messaging: allow users to write comments
+# Google Paly Services
+- Firebase authentication: allow users to sign in with email or google
+- Firebase messaging: allow users to write comments
 
 # License
 Copyright 2019 Mariem Mezghani
