@@ -28,7 +28,7 @@ and who wants to have access to different popular news sources in a single app.
 - Picasso ( version:2.5.2 ) to display images from the web
 - Retrofit ( version:2.4.0 ) to fetch JSON data from the NewsApi.org
 
-# Google Paly Services
+# Google Play Services
 - Firebase authentication: allow users to sign in with email or google
 - Firebase messaging: allow users to write comments
 
