@@ -1,7 +1,7 @@
 # Overview
 Top News is a news application that helps the users stay updated with trending news from 
-different famous sources like CNN and BBC News. The app allows users to explore news
-articles by sources . When the user clicks on an article, he can read it, share it and write a
+different famous sources like CNN and BBC News. It fetches data from the internet with the NewsApi API. 
+The app allows its users to explore news articles by sources . When the user clicks on an article, he can read it, share it and write a
 comment.
 
 # Intended Users
